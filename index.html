@@ -1,0 +1,1244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Super AutoHaul - Transport Your Car with Full Transparency</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=KoHo:wght@400;600&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <style>
+    *, *::before, *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --red: #dc1e3d;
+      --black: #000000;
+      --white: #ffffff;
+      --dark-blue: #273044;
+      --gray: #d9d9d9;
+      --near-black: #121212;
+    }
+
+    body {
+      font-family: 'Montserrat', sans-serif;
+      color: var(--black);
+      background: var(--white);
+      overflow-x: hidden;
+    }
+
+    /* ===== HEADER ===== */
+    .header {
+      background: var(--black);
+      padding: 30px 40px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+    }
+
+    .logo-icon {
+      width: 65px;
+      height: 56px;
+    }
+
+    .logo-text {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--white);
+      letter-spacing: 3px;
+      text-transform: uppercase;
+    }
+
+    .header-right {
+      display: flex;
+      align-items: center;
+      gap: 30px;
+    }
+
+    .hamburger {
+      color: var(--white);
+      font-size: 40px;
+      cursor: pointer;
+      background: none;
+      border: none;
+    }
+
+    .btn-primary {
+      background: var(--red);
+      color: var(--white);
+      font-family: 'Montserrat', sans-serif;
+      font-size: 20px;
+      font-weight: 400;
+      padding: 16px 40px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-block;
+      transition: opacity 0.3s;
+      letter-spacing: 1px;
+    }
+
+    .btn-primary:hover {
+      opacity: 0.9;
+    }
+
+    /* ===== HERO ===== */
+    .hero {
+      background: var(--black);
+      position: relative;
+      min-height: 700px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      overflow: hidden;
+    }
+
+    .hero-bg {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0.6;
+    }
+
+    .hero-decorative {
+      position: absolute;
+      right: 0;
+      top: 50%;
+      transform: translateY(-60%);
+      width: 500px;
+      height: 430px;
+      opacity: 0.15;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      text-align: center;
+      padding: 80px 40px 0;
+      max-width: 1300px;
+    }
+
+    .hero h1 {
+      font-family: 'KoHo', sans-serif;
+      font-size: 80px;
+      font-weight: 600;
+      color: var(--white);
+      letter-spacing: 4px;
+      line-height: 1.15;
+    }
+
+    /* ===== QUOTE FORM ===== */
+    .quote-form-wrapper {
+      position: relative;
+      z-index: 3;
+      margin-top: 60px;
+      margin-bottom: -180px;
+      padding: 0 40px;
+    }
+
+    .quote-form {
+      background: var(--white);
+      border-radius: 40px;
+      border: 1px solid var(--white);
+      padding: 50px 60px 60px;
+      max-width: 1360px;
+      margin: 0 auto;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+    }
+
+    .steps-indicator {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0;
+      margin-bottom: 40px;
+    }
+
+    .step-circle {
+      width: 58px;
+      height: 58px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 20px;
+      font-weight: 600;
+      color: var(--white);
+      flex-shrink: 0;
+    }
+
+    .step-circle.active {
+      background: var(--red);
+    }
+
+    .step-circle.inactive {
+      background: var(--gray);
+    }
+
+    .step-line {
+      width: 80px;
+      height: 2px;
+      background: var(--gray);
+    }
+
+    .quote-form h2 {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 40px;
+      font-weight: 600;
+      text-align: center;
+      margin-bottom: 50px;
+      letter-spacing: 2px;
+    }
+
+    .form-fields {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 40px;
+      margin-bottom: 40px;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 15px;
+      font-weight: 600;
+      margin-bottom: 12px;
+      letter-spacing: 0.75px;
+    }
+
+    .form-group input,
+    .form-group select {
+      width: 100%;
+      border: none;
+      border-bottom: 1px solid var(--black);
+      padding: 10px 0;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 20px;
+      font-weight: 600;
+      outline: none;
+      background: transparent;
+      color: var(--gray);
+      letter-spacing: 1px;
+      -webkit-appearance: none;
+      appearance: none;
+    }
+
+    .form-group input::placeholder {
+      color: var(--gray);
+    }
+
+    .select-wrapper {
+      position: relative;
+    }
+
+    .select-wrapper::after {
+      content: '\f078';
+      font-family: 'Font Awesome 6 Free';
+      font-weight: 900;
+      color: var(--red);
+      position: absolute;
+      right: 0;
+      bottom: 12px;
+      font-size: 20px;
+      pointer-events: none;
+    }
+
+    .form-submit {
+      text-align: center;
+    }
+
+    /* ===== SECTION SPACER ===== */
+    .section-spacer {
+      height: 220px;
+    }
+
+    /* ===== HOW TO BOOK ===== */
+    .how-to-book {
+      padding: 100px 40px 80px;
+      max-width: 1400px;
+      margin: 0 auto;
+      position: relative;
+    }
+
+    .how-to-book .subtitle {
+      font-family: 'KoHo', sans-serif;
+      font-size: 30px;
+      font-weight: 600;
+      margin-bottom: 16px;
+      letter-spacing: 1.5px;
+    }
+
+    .how-to-book h2 {
+      font-size: 60px;
+      font-weight: 500;
+      letter-spacing: 3px;
+      margin-bottom: 60px;
+      max-width: 900px;
+      line-height: 1.2;
+    }
+
+    .steps-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 40px;
+    }
+
+    .step-card {
+      text-align: center;
+    }
+
+    .step-card .step-icon {
+      width: 150px;
+      height: 150px;
+      object-fit: contain;
+      margin-bottom: 24px;
+    }
+
+    .step-card .divider {
+      width: 100%;
+      max-width: 273px;
+      height: 2px;
+      background: var(--black);
+      margin: 0 auto 20px;
+    }
+
+    .step-card .step-label {
+      font-size: 20px;
+      font-weight: 600;
+      margin-bottom: 8px;
+      letter-spacing: 1px;
+    }
+
+    .step-card .step-title {
+      font-size: 20px;
+      font-weight: 600;
+      letter-spacing: 1px;
+    }
+
+    /* ===== QUOTE TO DELIVERY ===== */
+    .quote-to-delivery {
+      padding: 80px 40px;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    .quote-to-delivery h2 {
+      font-size: 60px;
+      font-weight: 500;
+      letter-spacing: 3px;
+      text-align: center;
+      margin-bottom: 60px;
+      line-height: 1.2;
+    }
+
+    .delivery-cards {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 30px;
+    }
+
+    .delivery-card {
+      border: 1px solid var(--black);
+      border-radius: 40px;
+      padding: 50px 40px;
+      min-height: 674px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .delivery-card .card-number {
+      font-size: 50px;
+      font-weight: 500;
+      margin-bottom: 30px;
+      letter-spacing: 2.5px;
+    }
+
+    .delivery-card .card-title {
+      font-size: 50px;
+      font-weight: 500;
+      margin-bottom: 30px;
+      letter-spacing: 2.5px;
+      line-height: 1.15;
+    }
+
+    .delivery-card .card-desc {
+      font-size: 18px;
+      font-weight: 400;
+      line-height: 1.6;
+      letter-spacing: 0.75px;
+    }
+
+    /* ===== TYPE OF SERVICES ===== */
+    .services {
+      background: var(--black);
+      padding: 80px 40px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .services h2 {
+      font-size: 60px;
+      font-weight: 500;
+      color: var(--white);
+      text-align: center;
+      margin-bottom: 60px;
+      letter-spacing: 3px;
+    }
+
+    .services-grid {
+      display: flex;
+      justify-content: center;
+      gap: 40px;
+      max-width: 1300px;
+      margin: 0 auto;
+    }
+
+    .service-card {
+      border: 1px solid var(--white);
+      border-radius: 40px;
+      padding: 50px 40px;
+      width: 591px;
+      height: 290px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      position: relative;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .service-card:hover {
+      background: rgba(255,255,255,0.05);
+    }
+
+    .service-card .service-title {
+      font-family: 'KoHo', sans-serif;
+      font-size: 50px;
+      font-weight: 600;
+      color: var(--white);
+      letter-spacing: 2.5px;
+    }
+
+    .service-card .service-sub {
+      font-family: 'KoHo', sans-serif;
+      font-size: 30px;
+      font-weight: 600;
+      color: var(--white);
+      letter-spacing: 1.5px;
+    }
+
+    .service-card .service-chevron {
+      position: absolute;
+      right: 40px;
+      bottom: 40px;
+      color: var(--white);
+      font-size: 30px;
+    }
+
+    .decorative-shape {
+      position: absolute;
+      width: 400px;
+      height: 350px;
+      background: var(--red);
+      clip-path: polygon(0% 20%, 60% 0%, 100% 40%, 80% 100%, 20% 80%);
+      opacity: 0.15;
+    }
+
+    .decorative-left {
+      left: -100px;
+      bottom: -50px;
+    }
+
+    .decorative-right {
+      right: -100px;
+      top: -50px;
+    }
+
+    /* ===== TECHNOLOGY BEHIND ===== */
+    .technology {
+      background: var(--black);
+      padding: 100px 40px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .technology h2 {
+      font-size: 60px;
+      font-weight: 500;
+      color: var(--white);
+      text-align: center;
+      letter-spacing: 3px;
+      margin-bottom: 30px;
+    }
+
+    .technology .tech-subtitle {
+      font-size: 18px;
+      font-weight: 400;
+      color: var(--white);
+      text-align: center;
+      max-width: 900px;
+      margin: 0 auto 80px;
+      line-height: 1.6;
+      letter-spacing: 0.75px;
+    }
+
+    .tech-features {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 60px;
+      max-width: 1100px;
+      margin: 0 auto 80px;
+    }
+
+    .tech-feature {
+      display: flex;
+      gap: 24px;
+      align-items: flex-start;
+    }
+
+    .tech-feature img {
+      width: 113px;
+      height: 113px;
+      object-fit: contain;
+      flex-shrink: 0;
+    }
+
+    .tech-feature h3 {
+      font-size: 20px;
+      font-weight: 600;
+      color: var(--white);
+      margin-bottom: 12px;
+      letter-spacing: 1px;
+    }
+
+    .tech-feature p {
+      font-size: 15px;
+      font-weight: 400;
+      color: var(--white);
+      line-height: 1.6;
+      letter-spacing: 0.75px;
+    }
+
+    /* Timeline */
+    .tech-timeline {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0;
+    }
+
+    .timeline-horizontal {
+      display: flex;
+      align-items: center;
+      gap: 0;
+    }
+
+    .timeline-dot {
+      width: 43px;
+      height: 43px;
+      border-radius: 50%;
+      border: 2px solid var(--red);
+      flex-shrink: 0;
+    }
+
+    .timeline-line-h {
+      width: 200px;
+      height: 2px;
+      background: var(--white);
+    }
+
+    .timeline-center {
+      width: 120px;
+      height: 120px;
+      background: var(--red);
+      border-radius: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .timeline-center i {
+      color: var(--white);
+      font-size: 40px;
+    }
+
+    .timeline-line-v {
+      width: 2px;
+      height: 100px;
+      background: var(--white);
+    }
+
+    .timeline-label {
+      font-size: 20px;
+      font-weight: 600;
+      color: var(--white);
+      text-align: center;
+      margin-top: 30px;
+      letter-spacing: 1px;
+    }
+
+    /* ===== AI DISPATCH BANNER ===== */
+    .ai-banner {
+      background: var(--dark-blue);
+      padding: 80px 80px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 60px;
+      position: relative;
+      overflow: hidden;
+      min-height: 500px;
+    }
+
+    .ai-banner-text {
+      font-family: 'KoHo', sans-serif;
+      font-size: 50px;
+      font-weight: 600;
+      color: var(--white);
+      max-width: 750px;
+      line-height: 1.3;
+      letter-spacing: 2.5px;
+    }
+
+    .ai-banner-phone {
+      width: 304px;
+      flex-shrink: 0;
+    }
+
+    .ai-banner-phone img {
+      width: 100%;
+      height: auto;
+    }
+
+    /* ===== WHY SUPER AUTOHAUL ===== */
+    .why-section {
+      padding: 100px 40px;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    .why-section h2 {
+      font-size: 60px;
+      font-weight: 500;
+      text-align: center;
+      margin-bottom: 60px;
+      letter-spacing: 3px;
+    }
+
+    .why-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 30px;
+    }
+
+    .why-card {
+      border: 1px solid var(--black);
+      border-radius: 40px;
+      padding: 40px 30px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+
+    .why-card img {
+      height: 95px;
+      object-fit: contain;
+      margin-bottom: 24px;
+    }
+
+    .why-card h3 {
+      font-size: 20px;
+      font-weight: 600;
+      margin-bottom: 16px;
+      letter-spacing: 1px;
+    }
+
+    .why-card p {
+      font-size: 15px;
+      font-weight: 400;
+      line-height: 1.6;
+      letter-spacing: 0.75px;
+      color: var(--black);
+    }
+
+    .why-card .read-toggle {
+      font-size: 15px;
+      font-weight: 700;
+      text-decoration: underline;
+      cursor: pointer;
+      background: none;
+      border: none;
+      font-family: 'Montserrat', sans-serif;
+      margin-top: 8px;
+      letter-spacing: 0.75px;
+    }
+
+    /* ===== FAQ ===== */
+    .faq {
+      background: var(--black);
+      padding: 80px 40px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .faq-content {
+      max-width: 1400px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 60px;
+      align-items: start;
+    }
+
+    .faq-left {
+      position: relative;
+    }
+
+    .faq-left .decorative-shape {
+      position: relative;
+      left: 0;
+      top: 0;
+      opacity: 0.2;
+    }
+
+    .faq-truck {
+      width: 100%;
+      max-width: 687px;
+      margin-top: 40px;
+    }
+
+    .faq-right h2 {
+      font-size: 60px;
+      font-weight: 500;
+      color: var(--white);
+      margin-bottom: 40px;
+      letter-spacing: 3px;
+    }
+
+    .faq-item {
+      border-bottom: 1px solid rgba(217, 217, 217, 0.3);
+      padding: 24px 0;
+    }
+
+    .faq-question {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      cursor: pointer;
+      gap: 20px;
+    }
+
+    .faq-question h3 {
+      font-size: 18px;
+      font-weight: 500;
+      color: var(--white);
+      line-height: 1.4;
+      letter-spacing: 0.75px;
+    }
+
+    .faq-question .faq-toggle {
+      color: var(--white);
+      font-size: 30px;
+      flex-shrink: 0;
+      background: none;
+      border: none;
+      cursor: pointer;
+      width: 40px;
+      text-align: center;
+    }
+
+    .faq-answer {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease;
+    }
+
+    .faq-answer.open {
+      max-height: 300px;
+    }
+
+    .faq-answer p {
+      font-size: 15px;
+      font-weight: 400;
+      color: var(--white);
+      line-height: 1.6;
+      padding-top: 16px;
+      letter-spacing: 0.75px;
+    }
+
+    /* ===== CTA / FOOTER ===== */
+    .cta-footer {
+      padding: 100px 40px 60px;
+      max-width: 1400px;
+      margin: 0 auto;
+      position: relative;
+    }
+
+    .cta-text {
+      font-family: 'KoHo', sans-serif;
+      font-size: 50px;
+      font-weight: 600;
+      max-width: 800px;
+      margin-bottom: 50px;
+      line-height: 1.3;
+      letter-spacing: 2.5px;
+    }
+
+    .footer-bottom {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 60px;
+      padding-top: 40px;
+    }
+
+    .footer-logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .footer-logo .logo-icon {
+      width: 50px;
+    }
+
+    .footer-logo .logo-text {
+      font-size: 16px;
+      color: var(--black);
+    }
+
+    .copyright {
+      font-size: 15px;
+      font-weight: 500;
+      color: var(--near-black);
+      letter-spacing: 0.75px;
+    }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 1200px) {
+      .hero h1 {
+        font-size: 56px;
+      }
+      .how-to-book h2,
+      .quote-to-delivery h2,
+      .services h2,
+      .technology h2,
+      .why-section h2,
+      .faq-right h2 {
+        font-size: 42px;
+      }
+      .delivery-card .card-title,
+      .delivery-card .card-number {
+        font-size: 36px;
+      }
+      .ai-banner-text,
+      .cta-text {
+        font-size: 36px;
+      }
+      .service-card .service-title {
+        font-size: 36px;
+      }
+    }
+
+    @media (max-width: 900px) {
+      .form-fields {
+        grid-template-columns: 1fr;
+        gap: 30px;
+      }
+      .steps-grid,
+      .delivery-cards,
+      .why-grid {
+        grid-template-columns: 1fr;
+        max-width: 500px;
+        margin: 0 auto;
+      }
+      .delivery-card {
+        min-height: auto;
+      }
+      .services-grid {
+        flex-direction: column;
+        align-items: center;
+      }
+      .service-card {
+        width: 100%;
+        max-width: 500px;
+      }
+      .tech-features {
+        grid-template-columns: 1fr;
+      }
+      .faq-content {
+        grid-template-columns: 1fr;
+      }
+      .faq-left {
+        display: none;
+      }
+      .ai-banner {
+        flex-direction: column;
+        text-align: center;
+        padding: 60px 40px;
+      }
+      .hero h1 {
+        font-size: 40px;
+      }
+      .quote-form {
+        padding: 40px 30px;
+      }
+      .quote-form h2 {
+        font-size: 28px;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .header {
+        padding: 20px;
+      }
+      .hero h1 {
+        font-size: 32px;
+      }
+      .how-to-book h2,
+      .quote-to-delivery h2,
+      .services h2,
+      .technology h2,
+      .why-section h2,
+      .faq-right h2 {
+        font-size: 32px;
+      }
+      .ai-banner-text,
+      .cta-text {
+        font-size: 28px;
+      }
+      .btn-primary {
+        font-size: 16px;
+        padding: 14px 30px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header class="header">
+    <a href="#" class="logo">
+      <svg class="logo-icon" viewBox="0 0 65 56" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M32.5 0L65 28L32.5 56L0 28L32.5 0Z" fill="#dc1e3d"/>
+        <path d="M20 20h25v4H20z" fill="white"/>
+        <path d="M20 28h25v4H20z" fill="white"/>
+        <path d="M20 36h18v4H20z" fill="white"/>
+      </svg>
+      <span class="logo-text">Super AutoHaul</span>
+    </a>
+    <div class="header-right">
+      <a href="#quote" class="btn-primary">Instant Quote</a>
+      <button class="hamburger" aria-label="Menu">
+        <i class="fa-solid fa-bars"></i>
+      </button>
+    </div>
+  </header>
+
+  <!-- HERO -->
+  <section class="hero">
+    <img src="images/hero-bg.jpg" alt="Auto transport" class="hero-bg">
+    <div class="hero-content">
+      <h1>Transport Your Car with full transparency.</h1>
+    </div>
+
+    <!-- QUOTE FORM -->
+    <div class="quote-form-wrapper" id="quote">
+      <div class="quote-form">
+        <div class="steps-indicator">
+          <div class="step-circle active">1</div>
+          <div class="step-line"></div>
+          <div class="step-circle inactive">2</div>
+          <div class="step-line"></div>
+          <div class="step-circle inactive">3</div>
+        </div>
+        <h2>Get an instant quote</h2>
+        <div class="form-fields">
+          <div class="form-group">
+            <label>Transport Car From *</label>
+            <input type="text" placeholder="Zip Code or City">
+          </div>
+          <div class="form-group">
+            <label>Transport Car To *</label>
+            <input type="text" placeholder="Zip Code or City">
+          </div>
+          <div class="form-group">
+            <label>Delivery Window *</label>
+            <div class="select-wrapper">
+              <select>
+                <option value="" disabled selected>Select</option>
+                <option value="1-3">1-3 Days</option>
+                <option value="4-7">4-7 Days</option>
+                <option value="8-14">8-14 Days</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div class="form-submit">
+          <a href="#" class="btn-primary">Vehicle Details</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-spacer"></div>
+
+  <!-- HOW TO BOOK -->
+  <section class="how-to-book">
+    <p class="subtitle">Our auto transporter steps</p>
+    <h2>How do I book with an auto transport company?</h2>
+    <div class="steps-grid">
+      <div class="step-card">
+        <img src="images/step1-icon.png" alt="Quote and book" class="step-icon">
+        <div class="divider"></div>
+        <p class="step-label">Step 1</p>
+        <p class="step-title">Quote and book your order</p>
+      </div>
+      <div class="step-card">
+        <img src="images/step2-icon.png" alt="Pick up vehicle" class="step-icon">
+        <div class="divider"></div>
+        <p class="step-label">Step 2</p>
+        <p class="step-title">We pick up your vehicle</p>
+      </div>
+      <div class="step-card">
+        <img src="images/step3-icon.png" alt="Receive vehicle" class="step-icon">
+        <div class="divider"></div>
+        <p class="step-label">Step 3</p>
+        <p class="step-title">Receive your vehicle</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- FROM QUOTE TO DELIVERY -->
+  <section class="quote-to-delivery">
+    <h2>From Quote to Delivery &mdash; Every Step in Your Control</h2>
+    <div class="delivery-cards">
+      <div class="delivery-card">
+        <div class="card-number">1</div>
+        <h3 class="card-title">Quote Confirmed</h3>
+        <p class="card-desc">Get a locked-in price and delivery window in seconds&mdash;no hidden fees, no surprise add-ons.</p>
+      </div>
+      <div class="delivery-card">
+        <div class="card-number">2</div>
+        <h3 class="card-title">Carrier Assigned</h3>
+        <p class="card-desc">Your carrier is confirmed with full details: license plate, driver photo, and truck info&mdash;so you know exactly who's coming.</p>
+      </div>
+      <div class="delivery-card">
+        <div class="card-number">3</div>
+        <h3 class="card-title">Pickup Scheduled</h3>
+        <p class="card-desc">Stay in the loop with real-time countdown alerts&mdash;1 hour, 30 minutes, 5 minutes before pickup.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- TYPE OF SERVICES -->
+  <section class="services">
+    <div class="decorative-shape decorative-left"></div>
+    <div class="decorative-shape decorative-right"></div>
+    <h2>Type of Services</h2>
+    <div class="services-grid">
+      <div class="service-card">
+        <span class="service-title">Door to Door</span>
+        <span class="service-sub">Shipping</span>
+        <i class="fa-solid fa-chevron-down service-chevron"></i>
+      </div>
+      <div class="service-card">
+        <span class="service-title">Relocation</span>
+        <span class="service-sub">Shipping</span>
+        <i class="fa-solid fa-chevron-down service-chevron"></i>
+      </div>
+    </div>
+  </section>
+
+  <!-- THE TECHNOLOGY BEHIND -->
+  <section class="technology">
+    <h2>The Technology Behind</h2>
+    <p class="tech-subtitle">Super AutoHaul isn't just a shipping company &mdash; it's a logistics intelligence platform built for speed, safety, and real-time control.</p>
+    <div class="tech-features">
+      <div class="tech-feature">
+        <img src="images/ai-quote-icon.png" alt="AI Quote Engine">
+        <div>
+          <h3>AI-Powered Quote Engine</h3>
+          <p>Our smart pricing system taps into live market data to generate accurate quotes instantly &mdash; no forms, no back-and-forth, no hidden fees.</p>
+        </div>
+      </div>
+      <div class="tech-feature">
+        <img src="images/true-cost-icon.png" alt="True-Cost Data">
+        <div>
+          <h3>True-Cost Data</h3>
+          <p>Our smart pricing system taps into live market data to generate accurate quotes instantly &mdash; no forms, no back-and-forth, no hidden fees.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Timeline -->
+    <div class="tech-timeline">
+      <div class="timeline-horizontal">
+        <div class="timeline-dot"></div>
+        <div class="timeline-line-h"></div>
+        <div class="timeline-center">
+          <i class="fa-solid fa-microchip"></i>
+        </div>
+        <div class="timeline-line-h"></div>
+        <div class="timeline-dot"></div>
+      </div>
+      <div class="timeline-line-v"></div>
+      <div class="timeline-dot"></div>
+      <p class="timeline-label">Smarter Quotes, Backed by Real Data</p>
+    </div>
+  </section>
+
+  <!-- AI DISPATCH BANNER -->
+  <section class="ai-banner">
+    <p class="ai-banner-text">Powered by AI for instant carrier dispatch, real-time tracking, and precise delivery windows that keep you in control.</p>
+    <div class="ai-banner-phone">
+      <img src="images/phone-mockup.png" alt="App mockup">
+    </div>
+  </section>
+
+  <!-- WHY SUPER AUTOHAUL -->
+  <section class="why-section">
+    <h2>Why Super AutoHaul</h2>
+    <div class="why-grid">
+      <div class="why-card">
+        <img src="images/feature1-icon.png" alt="Top-Rated">
+        <h3>Top-Rated Auto Shipping</h3>
+        <p>We have thousands of 5-star reviews for exceptional vehicle shipping services. Our customers consistently rate us as one of the best auto transport companies in the nation.</p>
+        <button class="read-toggle">Read less</button>
+      </div>
+      <div class="why-card">
+        <img src="images/feature2-icon.png" alt="Door-to-Door">
+        <h3>Nationwide Door-to-Door Service</h3>
+        <p>We provide direct service to and from any residential or business location in the US.</p>
+        <button class="read-toggle">Read more</button>
+      </div>
+      <div class="why-card">
+        <img src="images/feature3-icon.png" alt="Coverage">
+        <h3>Complete Vehicle Coverage</h3>
+        <p>We offer the most comprehensive coverage options for complete peace of mind.</p>
+        <button class="read-toggle">Read more</button>
+      </div>
+      <div class="why-card">
+        <img src="images/feature4-icon.png" alt="No Deposit">
+        <h3>No Up-Front Deposit Required</h3>
+        <p>You don't pay a penny until the day your shipment is scheduled for pickup.</p>
+        <button class="read-toggle">Read more</button>
+      </div>
+      <div class="why-card">
+        <img src="images/feature5-icon.png" alt="Extended Hours">
+        <h3>Extended Office Hours</h3>
+        <p>We're available past normal business hours in every timezone in the country.</p>
+        <button class="read-toggle">Read more</button>
+      </div>
+      <div class="why-card">
+        <img src="images/feature6-icon.png" alt="24/7 Tracking">
+        <h3>24/7 Online Shipment Tracking</h3>
+        <p>You can track the status of your shipment online anytime at your convenience.</p>
+        <button class="read-toggle">Read more</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="faq">
+    <div class="faq-content">
+      <div class="faq-left">
+        <div class="decorative-shape" style="width:500px;height:420px;"></div>
+        <img src="images/faq-truck.png" alt="Transport truck" class="faq-truck">
+      </div>
+      <div class="faq-right">
+        <h2>FAQ</h2>
+        <div class="faq-item">
+          <div class="faq-question" onclick="toggleFaq(this)">
+            <h3>Is Super AutoHaul a licensed and insured auto transport company?</h3>
+            <button class="faq-toggle"><i class="fa-solid fa-plus"></i></button>
+          </div>
+          <div class="faq-answer">
+            <p>Yes. Super AutoHaul is fully licensed and insured, providing you with complete peace of mind for your vehicle transport needs.</p>
+          </div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-question" onclick="toggleFaq(this)">
+            <h3>How do I know my car is safe during pickup and delivery?</h3>
+            <button class="faq-toggle"><i class="fa-solid fa-minus"></i></button>
+          </div>
+          <div class="faq-answer open">
+            <p>Yes. When your carrier is confirmed, you'll receive their name, license plate, and vehicle information. It's like knowing your Uber driver&mdash;just for your car transport.</p>
+          </div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-question" onclick="toggleFaq(this)">
+            <h3>Is Super AutoHaul a licensed and insured auto transport company?</h3>
+            <button class="faq-toggle"><i class="fa-solid fa-plus"></i></button>
+          </div>
+          <div class="faq-answer">
+            <p>Yes. Super AutoHaul is fully licensed and insured, providing you with complete peace of mind for your vehicle transport needs.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA / FOOTER -->
+  <section class="cta-footer">
+    <p class="cta-text">What happens next usually starts with a conversation.</p>
+    <a href="#quote" class="btn-primary">Instant Quote</a>
+
+    <div class="footer-bottom">
+      <div class="footer-logo">
+        <svg class="logo-icon" viewBox="0 0 65 56" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:50px;height:43px;">
+          <path d="M32.5 0L65 28L32.5 56L0 28L32.5 0Z" fill="#dc1e3d"/>
+          <path d="M20 20h25v4H20z" fill="white"/>
+          <path d="M20 28h25v4H20z" fill="white"/>
+          <path d="M20 36h18v4H20z" fill="white"/>
+        </svg>
+        <span class="logo-text" style="color:#000;">Super AutoHaul</span>
+      </div>
+      <p class="copyright">&copy; 2025 Super Autohaul.</p>
+    </div>
+  </section>
+
+  <script>
+    function toggleFaq(el) {
+      const answer = el.nextElementSibling;
+      const icon = el.querySelector('.faq-toggle i');
+      const isOpen = answer.classList.contains('open');
+
+      // Close all
+      document.querySelectorAll('.faq-answer').forEach(a => a.classList.remove('open'));
+      document.querySelectorAll('.faq-toggle i').forEach(i => {
+        i.classList.remove('fa-minus');
+        i.classList.add('fa-plus');
+      });
+
+      // Toggle current
+      if (!isOpen) {
+        answer.classList.add('open');
+        icon.classList.remove('fa-plus');
+        icon.classList.add('fa-minus');
+      }
+    }
+  </script>
+
+</body>
+</html>
