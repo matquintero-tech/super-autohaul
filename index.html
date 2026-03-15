@@ -24,6 +24,10 @@
       --near-black: #121212;
     }
 
+    html {
+      scroll-behavior: smooth;
+    }
+
     body {
       font-family: 'Montserrat', sans-serif;
       color: var(--black);
@@ -33,7 +37,9 @@
 
     /* ===== HEADER ===== */
     .header {
-      background: var(--black);
+      background: rgba(0, 0, 0, 0.85);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
       padding: 30px 40px;
       display: flex;
       align-items: center;
@@ -41,6 +47,13 @@
       position: sticky;
       top: 0;
       z-index: 100;
+      transition: padding 0.3s, background 0.3s;
+    }
+
+    .header.scrolled {
+      padding: 16px 40px;
+      background: rgba(0, 0, 0, 0.95);
+      box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
     }
 
     .logo {
@@ -90,12 +103,114 @@
       cursor: pointer;
       text-decoration: none;
       display: inline-block;
-      transition: opacity 0.3s;
+      transition: opacity 0.3s, transform 0.3s, box-shadow 0.3s;
       letter-spacing: 1px;
     }
 
     .btn-primary:hover {
       opacity: 0.9;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(220, 30, 61, 0.4);
+    }
+
+    /* ===== ANIMATION SYSTEM ===== */
+    @keyframes fadeSlideUp {
+      from { opacity: 0; transform: translateY(60px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes fadeSlideLeft {
+      from { opacity: 0; transform: translateX(80px); }
+      to { opacity: 1; transform: translateX(0); }
+    }
+
+    @keyframes fadeSlideRight {
+      from { opacity: 0; transform: translateX(-80px); }
+      to { opacity: 1; transform: translateX(0); }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    @keyframes scaleIn {
+      from { opacity: 0; transform: scale(0.85); }
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    @keyframes drawLine {
+      from { transform: scaleX(0); }
+      to { transform: scaleX(1); }
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.15); opacity: 0.7; }
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0) rotate(0deg); }
+      50% { transform: translateY(-20px) rotate(2deg); }
+    }
+
+    @keyframes shimmer {
+      0% { background-position: -200% 0; }
+      100% { background-position: 200% 0; }
+    }
+
+    @keyframes heroWordReveal {
+      0% { opacity: 0; transform: translateY(40px) rotateX(40deg); filter: blur(8px); }
+      100% { opacity: 1; transform: translateY(0) rotateX(0deg); filter: blur(0); }
+    }
+
+    @keyframes lineGrow {
+      from { width: 0; }
+      to { width: 200px; }
+    }
+
+    @keyframes dotPulse {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(220, 30, 61, 0.4); }
+      50% { box-shadow: 0 0 0 12px rgba(220, 30, 61, 0); }
+    }
+
+    /* Scroll reveal base states */
+    .reveal {
+      opacity: 0;
+      transform: translateY(60px);
+      transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .reveal.from-left {
+      transform: translateX(-80px);
+    }
+
+    .reveal.from-right {
+      transform: translateX(80px);
+    }
+
+    .reveal.from-scale {
+      transform: scale(0.85);
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0) translateX(0) scale(1);
+    }
+
+    /* Stagger children */
+    .stagger-children .reveal {
+      transition-delay: calc(var(--stagger-index, 0) * 0.15s);
+    }
+
+    /* Reduced motion */
+    @media (prefers-reduced-motion: reduce) {
+      .reveal { transition: opacity 0.3s; transform: none; }
+      .reveal.visible { transform: none; }
+      .hero-word { animation: none !important; opacity: 1 !important; }
+      .step-card .divider { animation: none !important; transform: scaleX(1) !important; }
+      .timeline-dot { animation: none !important; }
+      .decorative-shape { animation: none !important; }
     }
 
     /* ===== HERO ===== */
@@ -144,6 +259,13 @@
       color: var(--white);
       letter-spacing: 4px;
       line-height: 1.15;
+      perspective: 600px;
+    }
+
+    .hero-word {
+      display: inline-block;
+      opacity: 0;
+      animation: heroWordReveal 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards;
     }
 
     /* ===== QUOTE FORM ===== */
@@ -163,6 +285,9 @@
       max-width: 1360px;
       margin: 0 auto;
       box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+      opacity: 0;
+      transform: translateY(40px);
+      animation: fadeSlideUp 0.9s cubic-bezier(0.16, 1, 0.3, 1) 1.2s forwards;
     }
 
     .steps-indicator {
@@ -304,6 +429,11 @@
 
     .step-card {
       text-align: center;
+      transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .step-card:hover {
+      transform: translateY(-8px);
     }
 
     .step-card .step-icon {
@@ -319,6 +449,13 @@
       height: 2px;
       background: var(--black);
       margin: 0 auto 20px;
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .step-card.visible .divider {
+      transform: scaleX(1);
     }
 
     .step-card .step-label {
@@ -363,6 +500,17 @@
       min-height: 674px;
       display: flex;
       flex-direction: column;
+      transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.5s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.3s;
+    }
+
+    .delivery-card:hover {
+      transform: translateY(-12px);
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+      border-color: var(--red);
+    }
+
+    .delivery-card:hover .card-number {
+      color: var(--red);
     }
 
     .delivery-card .card-number {
@@ -370,6 +518,7 @@
       font-weight: 500;
       margin-bottom: 30px;
       letter-spacing: 2.5px;
+      transition: color 0.3s;
     }
 
     .delivery-card .card-title {
@@ -423,11 +572,23 @@
       justify-content: center;
       position: relative;
       cursor: pointer;
-      transition: background 0.3s;
+      transition: background 0.4s, transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s, border-color 0.4s;
     }
 
     .service-card:hover {
-      background: rgba(255,255,255,0.05);
+      background: rgba(220, 30, 61, 0.08);
+      transform: translateY(-8px) scale(1.02);
+      box-shadow: 0 16px 40px rgba(220, 30, 61, 0.15);
+      border-color: var(--red);
+    }
+
+    .service-card:hover .service-chevron {
+      transform: translateY(4px);
+      color: var(--red);
+    }
+
+    .service-card .service-chevron {
+      transition: transform 0.3s, color 0.3s;
     }
 
     .service-card .service-title {
@@ -461,16 +622,19 @@
       background: var(--red);
       clip-path: polygon(0% 20%, 60% 0%, 100% 40%, 80% 100%, 20% 80%);
       opacity: 0.15;
+      animation: float 8s ease-in-out infinite;
     }
 
     .decorative-left {
       left: -100px;
       bottom: -50px;
+      animation-delay: 0s;
     }
 
     .decorative-right {
       right: -100px;
       top: -50px;
+      animation-delay: -4s;
     }
 
     /* ===== TECHNOLOGY BEHIND ===== */
@@ -558,6 +722,7 @@
       border-radius: 50%;
       border: 2px solid var(--red);
       flex-shrink: 0;
+      animation: dotPulse 2.5s ease-in-out infinite;
     }
 
     .timeline-line-h {
@@ -574,11 +739,20 @@
       display: flex;
       align-items: center;
       justify-content: center;
+      animation: pulse 3s ease-in-out infinite;
     }
 
     .timeline-center i {
       color: var(--white);
       font-size: 40px;
+    }
+
+    .timeline-line-h {
+      overflow: hidden;
+    }
+
+    .timeline-line-h.visible {
+      animation: lineGrow 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
     }
 
     .timeline-line-v {
@@ -658,6 +832,21 @@
       flex-direction: column;
       align-items: center;
       text-align: center;
+      transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s, border-color 0.3s;
+    }
+
+    .why-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 16px 50px rgba(0, 0, 0, 0.08);
+      border-color: var(--red);
+    }
+
+    .why-card:hover img {
+      transform: scale(1.1);
+    }
+
+    .why-card img {
+      transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
     .why-card img {
@@ -802,6 +991,12 @@
       margin-bottom: 50px;
       line-height: 1.3;
       letter-spacing: 2.5px;
+      background: linear-gradient(90deg, var(--black) 0%, var(--black) 40%, var(--red) 50%, var(--black) 60%, var(--black) 100%);
+      background-size: 200% 100%;
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: shimmer 4s ease-in-out infinite;
     }
 
     .footer-bottom {
@@ -959,7 +1154,7 @@
   <section class="hero">
     <img src="images/hero-bg.jpg" alt="Auto transport" class="hero-bg">
     <div class="hero-content">
-      <h1>Transport Your Car with full transparency.</h1>
+      <h1 id="hero-title">Transport Your Car with full transparency.</h1>
     </div>
 
     <!-- QUOTE FORM -->
@@ -1005,22 +1200,22 @@
 
   <!-- HOW TO BOOK -->
   <section class="how-to-book">
-    <p class="subtitle">Our auto transporter steps</p>
-    <h2>How do I book with an auto transport company?</h2>
-    <div class="steps-grid">
-      <div class="step-card">
+    <p class="subtitle reveal from-left">Our auto transporter steps</p>
+    <h2 class="reveal from-left">How do I book with an auto transport company?</h2>
+    <div class="steps-grid stagger-children">
+      <div class="step-card reveal" style="--stagger-index: 0">
         <img src="images/step1-icon.png" alt="Quote and book" class="step-icon">
         <div class="divider"></div>
         <p class="step-label">Step 1</p>
         <p class="step-title">Quote and book your order</p>
       </div>
-      <div class="step-card">
+      <div class="step-card reveal" style="--stagger-index: 1">
         <img src="images/step2-icon.png" alt="Pick up vehicle" class="step-icon">
         <div class="divider"></div>
         <p class="step-label">Step 2</p>
         <p class="step-title">We pick up your vehicle</p>
       </div>
-      <div class="step-card">
+      <div class="step-card reveal" style="--stagger-index: 2">
         <img src="images/step3-icon.png" alt="Receive vehicle" class="step-icon">
         <div class="divider"></div>
         <p class="step-label">Step 3</p>
@@ -1031,19 +1226,19 @@
 
   <!-- FROM QUOTE TO DELIVERY -->
   <section class="quote-to-delivery">
-    <h2>From Quote to Delivery &mdash; Every Step in Your Control</h2>
-    <div class="delivery-cards">
-      <div class="delivery-card">
+    <h2 class="reveal">From Quote to Delivery &mdash; Every Step in Your Control</h2>
+    <div class="delivery-cards stagger-children">
+      <div class="delivery-card reveal" style="--stagger-index: 0">
         <div class="card-number">1</div>
         <h3 class="card-title">Quote Confirmed</h3>
         <p class="card-desc">Get a locked-in price and delivery window in seconds&mdash;no hidden fees, no surprise add-ons.</p>
       </div>
-      <div class="delivery-card">
+      <div class="delivery-card reveal" style="--stagger-index: 1">
         <div class="card-number">2</div>
         <h3 class="card-title">Carrier Assigned</h3>
         <p class="card-desc">Your carrier is confirmed with full details: license plate, driver photo, and truck info&mdash;so you know exactly who's coming.</p>
       </div>
-      <div class="delivery-card">
+      <div class="delivery-card reveal" style="--stagger-index: 2">
         <div class="card-number">3</div>
         <h3 class="card-title">Pickup Scheduled</h3>
         <p class="card-desc">Stay in the loop with real-time countdown alerts&mdash;1 hour, 30 minutes, 5 minutes before pickup.</p>
@@ -1055,14 +1250,14 @@
   <section class="services">
     <div class="decorative-shape decorative-left"></div>
     <div class="decorative-shape decorative-right"></div>
-    <h2>Type of Services</h2>
-    <div class="services-grid">
-      <div class="service-card">
+    <h2 class="reveal">Type of Services</h2>
+    <div class="services-grid stagger-children">
+      <div class="service-card reveal from-left" style="--stagger-index: 0">
         <span class="service-title">Door to Door</span>
         <span class="service-sub">Shipping</span>
         <i class="fa-solid fa-chevron-down service-chevron"></i>
       </div>
-      <div class="service-card">
+      <div class="service-card reveal from-right" style="--stagger-index: 1">
         <span class="service-title">Relocation</span>
         <span class="service-sub">Shipping</span>
         <i class="fa-solid fa-chevron-down service-chevron"></i>
@@ -1072,17 +1267,17 @@
 
   <!-- THE TECHNOLOGY BEHIND -->
   <section class="technology">
-    <h2>The Technology Behind</h2>
-    <p class="tech-subtitle">Super AutoHaul isn't just a shipping company &mdash; it's a logistics intelligence platform built for speed, safety, and real-time control.</p>
-    <div class="tech-features">
-      <div class="tech-feature">
+    <h2 class="reveal">The Technology Behind</h2>
+    <p class="tech-subtitle reveal">Super AutoHaul isn't just a shipping company &mdash; it's a logistics intelligence platform built for speed, safety, and real-time control.</p>
+    <div class="tech-features stagger-children">
+      <div class="tech-feature reveal from-left" style="--stagger-index: 0">
         <img src="images/ai-quote-icon.png" alt="AI Quote Engine">
         <div>
           <h3>AI-Powered Quote Engine</h3>
           <p>Our smart pricing system taps into live market data to generate accurate quotes instantly &mdash; no forms, no back-and-forth, no hidden fees.</p>
         </div>
       </div>
-      <div class="tech-feature">
+      <div class="tech-feature reveal from-right" style="--stagger-index: 1">
         <img src="images/true-cost-icon.png" alt="True-Cost Data">
         <div>
           <h3>True-Cost Data</h3>
@@ -1092,7 +1287,7 @@
     </div>
 
     <!-- Timeline -->
-    <div class="tech-timeline">
+    <div class="tech-timeline reveal from-scale">
       <div class="timeline-horizontal">
         <div class="timeline-dot"></div>
         <div class="timeline-line-h"></div>
@@ -1110,47 +1305,47 @@
 
   <!-- AI DISPATCH BANNER -->
   <section class="ai-banner">
-    <p class="ai-banner-text">Powered by AI for instant carrier dispatch, real-time tracking, and precise delivery windows that keep you in control.</p>
-    <div class="ai-banner-phone">
+    <p class="ai-banner-text reveal from-left">Powered by AI for instant carrier dispatch, real-time tracking, and precise delivery windows that keep you in control.</p>
+    <div class="ai-banner-phone reveal from-right">
       <img src="images/phone-mockup.png" alt="App mockup">
     </div>
   </section>
 
   <!-- WHY SUPER AUTOHAUL -->
   <section class="why-section">
-    <h2>Why Super AutoHaul</h2>
-    <div class="why-grid">
-      <div class="why-card">
+    <h2 class="reveal">Why Super AutoHaul</h2>
+    <div class="why-grid stagger-children">
+      <div class="why-card reveal" style="--stagger-index: 0">
         <img src="images/feature1-icon.png" alt="Top-Rated">
         <h3>Top-Rated Auto Shipping</h3>
         <p>We have thousands of 5-star reviews for exceptional vehicle shipping services. Our customers consistently rate us as one of the best auto transport companies in the nation.</p>
         <button class="read-toggle">Read less</button>
       </div>
-      <div class="why-card">
+      <div class="why-card reveal" style="--stagger-index: 1">
         <img src="images/feature2-icon.png" alt="Door-to-Door">
         <h3>Nationwide Door-to-Door Service</h3>
         <p>We provide direct service to and from any residential or business location in the US.</p>
         <button class="read-toggle">Read more</button>
       </div>
-      <div class="why-card">
+      <div class="why-card reveal" style="--stagger-index: 2">
         <img src="images/feature3-icon.png" alt="Coverage">
         <h3>Complete Vehicle Coverage</h3>
         <p>We offer the most comprehensive coverage options for complete peace of mind.</p>
         <button class="read-toggle">Read more</button>
       </div>
-      <div class="why-card">
+      <div class="why-card reveal" style="--stagger-index: 3">
         <img src="images/feature4-icon.png" alt="No Deposit">
         <h3>No Up-Front Deposit Required</h3>
         <p>You don't pay a penny until the day your shipment is scheduled for pickup.</p>
         <button class="read-toggle">Read more</button>
       </div>
-      <div class="why-card">
+      <div class="why-card reveal" style="--stagger-index: 4">
         <img src="images/feature5-icon.png" alt="Extended Hours">
         <h3>Extended Office Hours</h3>
         <p>We're available past normal business hours in every timezone in the country.</p>
         <button class="read-toggle">Read more</button>
       </div>
-      <div class="why-card">
+      <div class="why-card reveal" style="--stagger-index: 5">
         <img src="images/feature6-icon.png" alt="24/7 Tracking">
         <h3>24/7 Online Shipment Tracking</h3>
         <p>You can track the status of your shipment online anytime at your convenience.</p>
@@ -1167,7 +1362,7 @@
         <img src="images/faq-truck.png" alt="Transport truck" class="faq-truck">
       </div>
       <div class="faq-right">
-        <h2>FAQ</h2>
+        <h2 class="reveal from-right">FAQ</h2>
         <div class="faq-item">
           <div class="faq-question" onclick="toggleFaq(this)">
             <h3>Is Super AutoHaul a licensed and insured auto transport company?</h3>
@@ -1201,8 +1396,8 @@
 
   <!-- CTA / FOOTER -->
   <section class="cta-footer">
-    <p class="cta-text">What happens next usually starts with a conversation.</p>
-    <a href="#quote" class="btn-primary">Instant Quote</a>
+    <p class="cta-text reveal from-left">What happens next usually starts with a conversation.</p>
+    <a href="#quote" class="btn-primary reveal">Instant Quote</a>
 
     <div class="footer-bottom">
       <div class="footer-logo">
@@ -1219,25 +1414,87 @@
   </section>
 
   <script>
+    // ===== HERO WORD-BY-WORD ANIMATION =====
+    (function() {
+      const title = document.getElementById('hero-title');
+      const text = title.textContent;
+      const words = text.split(' ');
+      title.innerHTML = '';
+      words.forEach((word, i) => {
+        const span = document.createElement('span');
+        span.className = 'hero-word';
+        span.textContent = word;
+        span.style.animationDelay = (0.3 + i * 0.12) + 's';
+        title.appendChild(span);
+        if (i < words.length - 1) {
+          title.appendChild(document.createTextNode(' '));
+        }
+      });
+    })();
+
+    // ===== SCROLL REVEAL (Intersection Observer) =====
+    (function() {
+      const revealElements = document.querySelectorAll('.reveal');
+
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+            observer.unobserve(entry.target);
+          }
+        });
+      }, {
+        threshold: 0.15,
+        rootMargin: '0px 0px -60px 0px'
+      });
+
+      revealElements.forEach(el => observer.observe(el));
+    })();
+
+    // ===== HEADER SHRINK ON SCROLL =====
+    (function() {
+      const header = document.querySelector('.header');
+      let ticking = false;
+      window.addEventListener('scroll', () => {
+        if (!ticking) {
+          requestAnimationFrame(() => {
+            header.classList.toggle('scrolled', window.scrollY > 80);
+            ticking = false;
+          });
+          ticking = true;
+        }
+      });
+    })();
+
+    // ===== FAQ TOGGLE =====
     function toggleFaq(el) {
       const answer = el.nextElementSibling;
       const icon = el.querySelector('.faq-toggle i');
       const isOpen = answer.classList.contains('open');
 
-      // Close all
       document.querySelectorAll('.faq-answer').forEach(a => a.classList.remove('open'));
       document.querySelectorAll('.faq-toggle i').forEach(i => {
         i.classList.remove('fa-minus');
         i.classList.add('fa-plus');
       });
 
-      // Toggle current
       if (!isOpen) {
         answer.classList.add('open');
         icon.classList.remove('fa-plus');
         icon.classList.add('fa-minus');
       }
     }
+
+    // ===== SMOOTH SCROLL FOR ANCHOR LINKS =====
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function(e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+          target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+      });
+    });
   </script>
 
 </body>
