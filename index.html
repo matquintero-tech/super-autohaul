@@ -76,29 +76,6 @@
       to { stroke-dashoffset: 0; }
     }
 
-    /* The glowing GPS dot that traces the path */
-    .splash-dot {
-      position: absolute;
-      width: 12px;
-      height: 12px;
-      background: var(--white);
-      border-radius: 50%;
-      box-shadow: 0 0 16px 4px rgba(220, 30, 61, 0.8), 0 0 40px 8px rgba(220, 30, 61, 0.3);
-      opacity: 0;
-      animation: dotAppear 0.3s ease 0.3s forwards;
-      offset-path: path("M407.384 88.1573H292.642V88.0966C287.128 88.1573 239.202 87.8535 229.361 88.2484C186.858 96.1468 160.626 114.374 158.463 165.895V165.925C161.144 276.866 305.896 253.809 308.089 290.901C307.907 311.437 234.388 304.996 234.388 304.996H151.851L70.3804 185.58L132.352 60.8474H293.16V60.7562H311.685V0H263.18V0.0911344H94.5413L0 190.41L119.616 365.753H234.388V366.512C234.967 366.512 293.526 366.664 297.761 366.36C363.571 361.773 394.74 280.815 343.371 227.654C312.934 197.488 270.736 191.686 232.347 179.778C224.273 177.104 218.362 171.485 218.88 162.766C218.393 149.157 255.38 148.914 255.38 148.914C279.541 146.817 349.952 148.974 375.149 148.914L456.62 268.33L394.648 393.063H215.315V453.819H432.459L527 263.5L407.384 88.1573Z");
-      offset-distance: 0%;
-      animation: dotAppear 0.3s ease 0.3s forwards, tracePath 2.2s cubic-bezier(0.4, 0, 0.2, 1) 0.5s forwards;
-    }
-
-    @keyframes dotAppear {
-      to { opacity: 1; }
-    }
-
-    @keyframes tracePath {
-      to { offset-distance: 100%; }
-    }
-
     /* The filled logo that fades in after stroke draws */
     .splash-fill {
       position: absolute;
@@ -140,27 +117,6 @@
     @keyframes shineSwipe {
       from { background-position: 200% 0; }
       to { background-position: -200% 0; }
-    }
-
-    /* Location pin that appears above the logo */
-    .splash-pin {
-      position: absolute;
-      top: -36px;
-      left: 50%;
-      transform: translateX(-50%) scale(0);
-      font-size: 20px;
-      color: var(--red);
-      filter: drop-shadow(0 0 8px rgba(220, 30, 61, 0.6));
-      animation: pinDrop 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) 0.1s forwards,
-                 pinFade 0.4s ease 2s forwards;
-    }
-
-    @keyframes pinDrop {
-      to { transform: translateX(-50%) scale(1); }
-    }
-
-    @keyframes pinFade {
-      to { opacity: 0; transform: translateX(-50%) scale(0.5) translateY(-10px); }
     }
 
     .splash.exit {
@@ -1537,14 +1493,10 @@
   <!-- SPLASH SCREEN -->
   <div class="splash" id="splash">
     <div class="splash-container">
-      <!-- Location pin -->
-      <i class="fa-solid fa-location-dot splash-pin"></i>
-      <!-- Stroke version for GPS route-line drawing -->
+      <!-- Stroke version for route-line drawing -->
       <svg class="splash-stroke" viewBox="0 0 527 454" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path d="M407.384 88.1573H292.642V88.0966C287.128 88.1573 239.202 87.8535 229.361 88.2484C186.858 96.1468 160.626 114.374 158.463 165.895V165.925C161.144 276.866 305.896 253.809 308.089 290.901C307.907 311.437 234.388 304.996 234.388 304.996H151.851L70.3804 185.58L132.352 60.8474H293.16V60.7562H311.685V0H263.18V0.0911344H94.5413L0 190.41L119.616 365.753H234.388V366.512C234.967 366.512 293.526 366.664 297.761 366.36C363.571 361.773 394.74 280.815 343.371 227.654C312.934 197.488 270.736 191.686 232.347 179.778C224.273 177.104 218.362 171.485 218.88 162.766C218.393 149.157 255.38 148.914 255.38 148.914C279.541 146.817 349.952 148.974 375.149 148.914L456.62 268.33L394.648 393.063H215.315V453.819H432.459L527 263.5L407.384 88.1573Z" fill="none" stroke="#DC1E3D" stroke-width="3"/>
       </svg>
-      <!-- GPS tracer dot -->
-      <div class="splash-dot"></div>
       <!-- Filled logo that fades in after stroke completes -->
       <svg class="splash-fill" viewBox="0 0 527 454" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path d="M407.384 88.1573H292.642V88.0966C287.128 88.1573 239.202 87.8535 229.361 88.2484C186.858 96.1468 160.626 114.374 158.463 165.895V165.925C161.144 276.866 305.896 253.809 308.089 290.901C307.907 311.437 234.388 304.996 234.388 304.996H151.851L70.3804 185.58L132.352 60.8474H293.16V60.7562H311.685V0H263.18V0.0911344H94.5413L0 190.41L119.616 365.753H234.388V366.512C234.967 366.512 293.526 366.664 297.761 366.36C363.571 361.773 394.74 280.815 343.371 227.654C312.934 197.488 270.736 191.686 232.347 179.778C224.273 177.104 218.362 171.485 218.88 162.766C218.393 149.157 255.38 148.914 255.38 148.914C279.541 146.817 349.952 148.974 375.149 148.914L456.62 268.33L394.648 393.063H215.315V453.819H432.459L527 263.5L407.384 88.1573Z" fill="#DC1E3D"/>
