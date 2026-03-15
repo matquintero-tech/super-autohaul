@@ -60,15 +60,14 @@
       width: 90px;
       height: auto;
       opacity: 0;
-      transform: scale(0.7);
       animation: splashGrow 2s cubic-bezier(0.16, 1, 0.3, 1) 0.2s forwards;
     }
 
     @keyframes splashGrow {
-      0% { opacity: 0; transform: scale(0.7); }
-      30% { opacity: 1; transform: scale(1); }
-      70% { opacity: 1; transform: scale(1.15); }
-      100% { opacity: 0; transform: scale(1.3); }
+      0% { opacity: 0; width: 90px; }
+      30% { opacity: 1; width: 90px; }
+      70% { opacity: 1; width: 50vw; }
+      100% { opacity: 0; width: 60vw; }
     }
 
     .splash.exit {
