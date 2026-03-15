@@ -60,32 +60,20 @@
       width: 90px;
       height: auto;
       opacity: 0;
-      transform: scale(0.8);
-      filter: drop-shadow(0 0 0px rgba(220, 30, 61, 0));
-      animation: splashSymbolIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.15s forwards,
-                 splashGlow 1.2s ease-in-out 0.8s forwards;
+      transform: scale(0.7);
+      animation: splashGrow 2s cubic-bezier(0.16, 1, 0.3, 1) 0.2s forwards;
     }
 
-    @keyframes splashSymbolIn {
-      to {
-        opacity: 1;
-        transform: scale(1);
-      }
-    }
-
-    @keyframes splashGlow {
-      0% { filter: drop-shadow(0 0 0px rgba(220, 30, 61, 0)); }
-      40% { filter: drop-shadow(0 0 40px rgba(220, 30, 61, 0.6)); }
-      100% { filter: drop-shadow(0 0 0px rgba(220, 30, 61, 0)); opacity: 0; transform: scale(1.1); }
+    @keyframes splashGrow {
+      0% { opacity: 0; transform: scale(0.7); }
+      30% { opacity: 1; transform: scale(1); }
+      70% { opacity: 1; transform: scale(1.15); }
+      100% { opacity: 0; transform: scale(1.3); }
     }
 
     .splash.exit {
-      animation: splashExit 0.7s cubic-bezier(0.7, 0, 0.3, 1) forwards;
-    }
-
-    @keyframes splashExit {
-      0% { clip-path: inset(0 0 0 0); }
-      100% { clip-path: inset(0 0 100% 0); }
+      opacity: 0;
+      transition: opacity 0.5s ease;
     }
 
     /* Page content hidden until splash completes */
