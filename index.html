@@ -404,9 +404,6 @@
       animation-play-state: running;
     }
 
-    .page-wrapper.loaded .quote-form {
-      animation-play-state: running;
-    }
 
     .trust-badge {
       display: flex;
@@ -424,12 +421,17 @@
     }
 
     /* ===== QUOTE FORM ===== */
-    .quote-form-wrapper {
+    .quote-section {
+      padding: 0 40px;
+      margin-top: -120px;
       position: relative;
       z-index: 3;
-      margin-top: 50px;
-      margin-bottom: -180px;
-      padding: 0 40px;
+      margin-bottom: 40px;
+    }
+
+    .quote-form-wrapper {
+      max-width: 1360px;
+      margin: 0 auto;
     }
 
     .quote-form {
@@ -440,10 +442,7 @@
       max-width: 1360px;
       margin: 0 auto;
       box-shadow: 0 20px 60px rgba(0,0,0,0.15);
-      opacity: 0;
-      transform: translateY(40px);
-      animation: fadeSlideUp 0.9s cubic-bezier(0.16, 1, 0.3, 1) 1.8s forwards;
-      animation-play-state: paused;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.15);
     }
 
     .steps-indicator {
@@ -1491,49 +1490,52 @@
         </div>
       </div>
 
-      <!-- QUOTE FORM -->
-      <div class="quote-form-wrapper" id="quote">
-        <div class="quote-form">
-          <div class="steps-indicator">
-            <div class="step-circle active">1</div>
-            <div class="step-line"></div>
-            <div class="step-circle inactive">2</div>
-            <div class="step-line"></div>
-            <div class="step-circle inactive">3</div>
-          </div>
-          <h2>Get an instant quote</h2>
-          <div class="form-fields">
-            <div class="form-group">
-              <label>Transport Car From *</label>
-              <input type="text" placeholder="Zip Code or City">
-            </div>
-            <div class="form-group">
-              <label>Transport Car To *</label>
-              <input type="text" placeholder="Zip Code or City">
-            </div>
-            <div class="form-group">
-              <label>Delivery Window *</label>
-              <div class="select-wrapper">
-                <select>
-                  <option value="" disabled selected>Select</option>
-                  <option value="asap">As soon as possible</option>
-                  <option value="1-2">1-2 Weeks</option>
-                  <option value="2-4">2-4 Weeks</option>
-                  <option value="flexible">Flexible</option>
-                </select>
-              </div>
-            </div>
-          </div>
-          <div class="form-submit">
-            <a href="#" class="btn-primary btn-lg">Get Instant Quote</a>
-          </div>
-        </div>
-      </div>
     </section>
   </div>
   <div class="hero-scroll-spacer"></div>
 
   <div class="content-below-hero">
+
+  <!-- QUOTE FORM -->
+  <section class="quote-section">
+    <div class="quote-form-wrapper" id="quote">
+      <div class="quote-form reveal">
+        <div class="steps-indicator">
+          <div class="step-circle active">1</div>
+          <div class="step-line"></div>
+          <div class="step-circle inactive">2</div>
+          <div class="step-line"></div>
+          <div class="step-circle inactive">3</div>
+        </div>
+        <h2>Get an instant quote</h2>
+        <div class="form-fields">
+          <div class="form-group">
+            <label>Transport Car From *</label>
+            <input type="text" placeholder="Zip Code or City">
+          </div>
+          <div class="form-group">
+            <label>Transport Car To *</label>
+            <input type="text" placeholder="Zip Code or City">
+          </div>
+          <div class="form-group">
+            <label>Delivery Window *</label>
+            <div class="select-wrapper">
+              <select>
+                <option value="" disabled selected>Select</option>
+                <option value="asap">As soon as possible</option>
+                <option value="1-2">1-2 Weeks</option>
+                <option value="2-4">2-4 Weeks</option>
+                <option value="flexible">Flexible</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div class="form-submit">
+          <a href="#" class="btn-primary btn-lg">Get Instant Quote</a>
+        </div>
+      </div>
+    </div>
+  </section>
 
   <!-- HOW TO BOOK -->
   <section class="how-to-book">
