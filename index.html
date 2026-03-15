@@ -295,14 +295,41 @@
     }
 
     /* ===== HERO ===== */
+    .hero-wrap {
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      z-index: 1;
+    }
+
+    .hero-scroll-spacer {
+      height: 60vh;
+      position: relative;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    .content-below-hero {
+      position: relative;
+      z-index: 2;
+      background: var(--white);
+    }
+
     .hero {
       background: var(--black);
-      position: relative;
-      min-height: 700px;
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
       display: flex;
       flex-direction: column;
       align-items: center;
       overflow: hidden;
+      transform-origin: top center;
+      will-change: transform, border-radius, filter;
+      border-radius: 0;
+      transition: none;
     }
 
     .hero-bg {
@@ -1450,60 +1477,63 @@
   </header>
 
   <!-- HERO -->
-  <section class="hero">
-    <img src="images/hero-bg.jpg" alt="Auto transport" class="hero-bg">
-    <div class="hero-content">
-      <h1 id="hero-title">Transport Your Car With Full Transparency.</h1>
-      <p class="hero-subtitle">Real-time tracking, transparent pricing, and door-to-door service across all 50 states.</p>
-      <div class="trust-badges">
-        <span class="trust-badge"><i class="fa-solid fa-shield-halved"></i> FMCSA Licensed &amp; Insured</span>
-        <span class="trust-badge"><i class="fa-solid fa-map-location-dot"></i> 50 State Coverage</span>
-        <span class="trust-badge"><i class="fa-solid fa-star"></i> 4.9 Star Rating</span>
-        <span class="trust-badge"><i class="fa-solid fa-headset"></i> 24/7 Support</span>
-      </div>
-    </div>
-
-    <!-- QUOTE FORM -->
-    <div class="quote-form-wrapper" id="quote">
-      <div class="quote-form">
-        <div class="steps-indicator">
-          <div class="step-circle active">1</div>
-          <div class="step-line"></div>
-          <div class="step-circle inactive">2</div>
-          <div class="step-line"></div>
-          <div class="step-circle inactive">3</div>
+  <div class="hero-wrap" id="hero-wrap">
+    <section class="hero" id="hero">
+      <img src="images/hero-bg.jpg" alt="Auto transport" class="hero-bg">
+      <div class="hero-content">
+        <h1 id="hero-title">Transport Your Car With Full Transparency.</h1>
+        <p class="hero-subtitle">Real-time tracking, transparent pricing, and door-to-door service across all 50 states.</p>
+        <div class="trust-badges">
+          <span class="trust-badge"><i class="fa-solid fa-shield-halved"></i> FMCSA Licensed &amp; Insured</span>
+          <span class="trust-badge"><i class="fa-solid fa-map-location-dot"></i> 50 State Coverage</span>
+          <span class="trust-badge"><i class="fa-solid fa-star"></i> 4.9 Star Rating</span>
+          <span class="trust-badge"><i class="fa-solid fa-headset"></i> 24/7 Support</span>
         </div>
-        <h2>Get an instant quote</h2>
-        <div class="form-fields">
-          <div class="form-group">
-            <label>Transport Car From *</label>
-            <input type="text" placeholder="Zip Code or City">
+      </div>
+
+      <!-- QUOTE FORM -->
+      <div class="quote-form-wrapper" id="quote">
+        <div class="quote-form">
+          <div class="steps-indicator">
+            <div class="step-circle active">1</div>
+            <div class="step-line"></div>
+            <div class="step-circle inactive">2</div>
+            <div class="step-line"></div>
+            <div class="step-circle inactive">3</div>
           </div>
-          <div class="form-group">
-            <label>Transport Car To *</label>
-            <input type="text" placeholder="Zip Code or City">
-          </div>
-          <div class="form-group">
-            <label>Delivery Window *</label>
-            <div class="select-wrapper">
-              <select>
-                <option value="" disabled selected>Select</option>
-                <option value="asap">As soon as possible</option>
-                <option value="1-2">1-2 Weeks</option>
-                <option value="2-4">2-4 Weeks</option>
-                <option value="flexible">Flexible</option>
-              </select>
+          <h2>Get an instant quote</h2>
+          <div class="form-fields">
+            <div class="form-group">
+              <label>Transport Car From *</label>
+              <input type="text" placeholder="Zip Code or City">
+            </div>
+            <div class="form-group">
+              <label>Transport Car To *</label>
+              <input type="text" placeholder="Zip Code or City">
+            </div>
+            <div class="form-group">
+              <label>Delivery Window *</label>
+              <div class="select-wrapper">
+                <select>
+                  <option value="" disabled selected>Select</option>
+                  <option value="asap">As soon as possible</option>
+                  <option value="1-2">1-2 Weeks</option>
+                  <option value="2-4">2-4 Weeks</option>
+                  <option value="flexible">Flexible</option>
+                </select>
+              </div>
             </div>
           </div>
-        </div>
-        <div class="form-submit">
-          <a href="#" class="btn-primary btn-lg">Get Instant Quote</a>
+          <div class="form-submit">
+            <a href="#" class="btn-primary btn-lg">Get Instant Quote</a>
+          </div>
         </div>
       </div>
-    </div>
-  </section>
+    </section>
+  </div>
+  <div class="hero-scroll-spacer"></div>
 
-  <div class="section-spacer"></div>
+  <div class="content-below-hero">
 
   <!-- HOW TO BOOK -->
   <section class="how-to-book">
@@ -1851,6 +1881,7 @@
     </div>
   </footer>
 
+  </div><!-- /content-below-hero -->
   </div><!-- /page-wrapper -->
 
   <script>
@@ -1916,14 +1947,36 @@
       revealElements.forEach(el => observer.observe(el));
     })();
 
-    // ===== HEADER SHRINK ON SCROLL =====
+    // ===== SCROLL EFFECTS: HEADER SHRINK + HERO COMPRESS =====
     (function() {
       const header = document.querySelector('.header');
+      const hero = document.getElementById('hero');
+      const heroWrap = document.getElementById('hero-wrap');
       let ticking = false;
+
       window.addEventListener('scroll', () => {
         if (!ticking) {
           requestAnimationFrame(() => {
-            header.classList.toggle('scrolled', window.scrollY > 80);
+            const scrollY = window.scrollY;
+
+            // Header shrink
+            header.classList.toggle('scrolled', scrollY > 80);
+
+            // Hero compress on scroll
+            const heroH = heroWrap.offsetHeight;
+            const progress = Math.min(Math.max(scrollY / heroH, 0), 1);
+
+            // scale: 1 → 0.85, border-radius: 0 → 32px, blur: 0 → 4px
+            const scale = 1 - progress * 0.15;
+            const radius = progress * 32;
+            const blur = progress * 4;
+            const opacity = 1 - progress * 0.3;
+
+            hero.style.transform = `scale(${scale})`;
+            hero.style.borderRadius = `${radius}px`;
+            hero.style.filter = `blur(${blur}px)`;
+            hero.style.opacity = opacity;
+
             ticking = false;
           });
           ticking = true;
